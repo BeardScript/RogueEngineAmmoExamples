@@ -43,13 +43,17 @@ export default class Rope extends RE.Component {
     if (!this.physicsStarted) return;
     this.cameraControls.enabled = true;
     this.cameraControls.update();
-    this.updatePhysics( RE.Runtime.deltaTime );
+
+    RE.Input.touch.touches[0] && (this.armMovement = 1);
+    RE.Input.touch.endTouches[0] && (this.armMovement = 0);
 
     RE.Input.keyboard.getKeyPressed("KeyQ") && (this.armMovement = 1);
     RE.Input.keyboard.getKeyPressed("KeyA") && (this.armMovement = -1);
 
     RE.Input.keyboard.getKeyUp("KeyQ") && (this.armMovement = 0);
     RE.Input.keyboard.getKeyUp("KeyA") && (this.armMovement = 0);
+
+    this.updatePhysics( RE.Runtime.deltaTime );
   }
 
   initGraphics() {

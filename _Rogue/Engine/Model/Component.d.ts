@@ -4,6 +4,8 @@ export default class Component extends Lifecycle {
     private _name;
     private _object3d;
     private _isReady;
+    private _enabled;
+    uuid: string;
     interface: ComponentInterface;
     constructor(name: string, object3d: Object3D);
     /**
@@ -26,6 +28,8 @@ export default class Component extends Lifecycle {
      * of this component are loaded.
      */
     get isReady(): boolean;
+    get enabled(): boolean;
+    set enabled(value: boolean);
     toJSON(): {
         name: string;
         componentPrototypeName: string;
@@ -35,8 +39,11 @@ export default class Component extends Lifecycle {
         };
     };
     fromJSON(json: any): void;
+    private serializePropRef;
     private serializeInterfaceRefs;
     private loadInterfaceRefs;
+    private readyNotifier;
+    loadPropRef(interfaceRefs: Object, key: string | number, object: Object, readyProps: Object, propGI: string, actualProp?: string): void;
     awake(): void;
     start(): void;
     beforeUpdate(): void;
@@ -44,9 +51,15 @@ export default class Component extends Lifecycle {
     afterUpdate(): void;
     onBeforeRemoved(): void;
     onRemoved(): void;
-    onBeforeObjetRemoved(): void;
+    onBeforeObjectRemoved(): void;
     onObjectRemoved(): void;
+    onDisabled(): void;
 }
+declare type ComponentInterfaceType = 'String' | 'Number' | 'Boolean' | 'Select' | 'Vector2' | 'Vector3' | 'Object3D' | 'Prefab' | 'Texture' | 'Material' | 'Component' | 'Audio' | 'Color' | 'PositionalAudio' | 'AnimationClip' | 'Button' | 'Data' | 'Code';
 export declare type ComponentInterface = {
-    [propName: string]: 'String' | 'Number' | 'Boolean' | 'Select' | 'Vector2' | 'Vector3' | 'Object3D' | 'Prefab' | 'Texture' | 'Material' | 'Component' | 'Audio' | 'PositionalAudio';
+    [propName: string]: ComponentInterfaceType | {
+        type: ComponentInterfaceType;
+        options?: any;
+    };
 };
+export {};

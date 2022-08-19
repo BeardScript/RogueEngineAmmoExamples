@@ -4,3 +4,4 @@ build/
 dist/
 !dist/ammo.wasm.wasm
 BUILD/
+package-lock.json
